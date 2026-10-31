@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { adaptTopLevelDts } from './lenovo-dts-adaptations.mjs';
 
 const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 if (!process.argv[2]) throw new Error('Pass the disposable reference kernel checkout path.');
@@ -21,10 +22,11 @@ for (const file of plan.files) {
   if (!response.ok) throw new Error(`Download failed ${response.status}: ${file.sourcePath}`);
   const bytes = Buffer.from(await response.arrayBuffer());
   if (crypto.createHash('sha256').update(bytes).digest('hex') !== file.sha256) throw new Error(`Hash mismatch: ${file.name}`);
-  downloads.push({ target, bytes });
+  const stagedBytes = file.name === 'tbx704-msm8953-qrd.dts' ? Buffer.from(adaptTopLevelDts(bytes.toString('utf8'))) : bytes;
+  downloads.push({ target, bytes: stagedBytes });
 }
 for (const item of downloads) {
   fs.mkdirSync(path.dirname(item.target), { recursive: true });
   fs.writeFileSync(item.target, item.bytes, { flag: 'wx' });
 }
-console.log(`Staged ${downloads.length} unchanged Lenovo DTS/DTSI files. Bindings, drivers and memory layout are NOT ported or validated.`);
+console.log(`Staged ${downloads.length} hash-checked Lenovo DTS/DTSI files with the documented 4.9 PMIC include adaptation. Drivers and memory layout are NOT ported or validated.`);
