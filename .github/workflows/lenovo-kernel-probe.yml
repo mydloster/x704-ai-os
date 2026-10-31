@@ -1,0 +1,66 @@
+name: Lenovo 4.9 integrated kernel compile experiment (NO FLASH)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compile-lenovo-foundation:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-22.04-arm
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: zeelog/android_kernel_xiaomi_mido
+          ref: d3baaff6d797893e6caea354b74ddf277ca62605
+          path: kernel-source
+          fetch-depth: 1
+      - name: Tools on disposable public runner
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential bc bison flex libssl-dev libelf-dev clang lld llvm device-tree-compiler gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi
+      - name: Stage pinned Lenovo board and driver sources
+        run: |
+          node scripts/stage-lenovo-dts-probe.mjs kernel-source
+          node scripts/stage-lenovo-driver-probe.mjs kernel-source
+          node scripts/integrate-lenovo-coulometer.mjs kernel-source
+      - name: Resolve Lenovo config with migrated SPMI and PMIC dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd kernel-source
+          test "$(git rev-parse HEAD)" = d3baaff6d797893e6caea354b74ddf277ca62605
+          mkdir out
+          scripts/kconfig/merge_config.sh -m -O out arch/arm64/configs/x704_legacy_probe_defconfig ../kernel/x70449-migration.config
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- olddefconfig
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          def read(p):
+              return dict(re.findall(r'^(CONFIG_\w+)=(.+)$', Path(p).read_text(), re.M))
+          old = read('arch/arm64/configs/x704_legacy_probe_defconfig')
+          config = read('out/.config')
+          for symbol in ['ARCH_QCOM','ARCH_MSM8953','SPMI','SPMI_MSM_PMIC_ARB','MFD_SPMI_PMIC','PINCTRL_QCOM_SPMI_PMIC','INPUT_QPNP_POWER_ON','QPNP_FG','QPNP_SMBCHARGER','X704_COULOMETER','DEBUG_INFO_DWARF4']:
+              key = 'CONFIG_' + symbol
+              print(f'PMIC_CONFIG {key}={config.get(key, "NOT_ENABLED_OR_UNKNOWN")}')
+              assert config.get(key) == 'y', f'Required dependency not enabled: {key}'
+          assert config.get('CONFIG_MACH_XIAOMI') != 'y', 'Wrong board support selected'
+          changes = [(k,v,config.get(k,'NOT_ENABLED_OR_UNKNOWN')) for k,v in old.items() if config.get(k) != v]
+          print(f'PMIC_MIGRATION_DELTA_COUNT {len(changes)}')
+          for k,previous,current in changes:
+              print(f'PMIC_CONFIG_DELTA {k}: legacy={previous} resolved={current}')
+          print('Remaining configuration differences need review; no hardware pass is implied.')
+          PY
+      - name: Compile kernel and Lenovo DTB with the migrated configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd kernel-source
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- -j4 Image.gz
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- DTC_FLAGS= qcom/tbx704-msm8953-qrd.dtb
+          node ../scripts/audit-lenovo-dtb.mjs out/arch/arm64/boot/dts/qcom/tbx704-msm8953-qrd.dtb
+          cat out/arch/arm64/boot/Image.gz out/arch/arm64/boot/dts/qcom/tbx704-msm8953-qrd.dtb > out/x70449-compile-only-Image.gz-dtb
+          sha256sum out/arch/arm64/boot/Image.gz out/arch/arm64/boot/dts/qcom/tbx704-msm8953-qrd.dtb out/x70449-compile-only-Image.gz-dtb
+          echo 'COMPILE EXPERIMENT ONLY. USB-C, fuel-gauge integration, touch, cameras and userspace ABI are not validated. Not a release or boot-tested image.'
+      # No artifact/cache uploads, credentials, vendor binaries or device access.
