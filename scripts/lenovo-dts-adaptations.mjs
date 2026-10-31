@@ -28,3 +28,11 @@ export function adaptAudioLabels(source) {
   }
   return source;
 }
+
+// Merge the Lenovo override into the renamed 4.9 node at the same PMIC address.
+// Keep the legacy vmax value; actuator behavior still requires a driver audit.
+export function adaptHapticNode(source) {
+  const oldNode = 'pmi_haptic: qcom,haptic@c000';
+  if (source.split(oldNode).length !== 2) throw new Error('Unexpected legacy haptic node.');
+  return source.replace(oldNode, 'pmi_haptic: qcom,haptics@c000');
+}
