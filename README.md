@@ -1,12 +1,17 @@
 # X704 AI OS – research and source checks
-Experimental Lenovo TB-X704L work. No Android 12+ ROM is built or claimed working.
 
-This review bundle contains only first-party integration/app code, source references and manual CI workflows. It contains no backups, keys, device reports, accounts or vendor binaries. Existing source copyrights are retained where applicable. No license grant for proprietary files is implied.
+Experimental Lenovo TB-X704L development. No Android 12+ ROM has been built or verified for this tablet.
 
-Manual public-repository workflows:
-- source-checks: fetches a pinned upstream device tree directly from its original GitHub repository and tests source staging and evidence gates.
-- kernel-reference-probe: attempts to compile a pinned Xiaomi mido 4.9 kernel for research. It is NOT a Lenovo image and must not be flashed to Lenovo.
+## Current results
 
-No caches or build artifacts are uploaded. Private repository jobs are disabled. No full AOSP build, paid runners, device access or automatic flashing.
+- Sources and workflows published with the device owner's approval.
+- [Source integration and release-evidence tests: passed](https://github.com/mydloster/x704-ai-os/actions/runs/41242215024).
+- [MSM8953 4.9 reference compile probe](https://github.com/mydloster/x704-ai-os/actions/runs/41242238700): see the run for its current result. This is a Xiaomi mido reference, NOT a Lenovo kernel or flashable tablet image.
 
-This bundle has not been published and no CI job has run. Public compute availability, account eligibility and successful kernel compilation are not guaranteed.
+## Scope
+
+This repository contains app/integration code, source references and manually triggered CI workflows. It contains no device backups, private keys, device reports, accounts or proprietary vendor binaries. Existing source copyrights remain applicable; no proprietary redistribution license is implied.
+
+Standard public-repository runners only. No caches, build-artifact uploads, paid runners, cloud credentials, automatic flashing or full AOSP checkout. Private-repository jobs are disabled. Free compute availability and successful compilation are not guaranteed.
+
+A working higher Android release requires a real Lenovo board/kernel port, a suitable complete-ROM build environment and actual hardware/application acceptance tests. Passing source checks does not demonstrate those results.
