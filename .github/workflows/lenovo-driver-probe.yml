@@ -1,0 +1,52 @@
+name: Lenovo legacy driver and config probe (NO FLASH)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compile-driver:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-22.04-arm
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: zeelog/android_kernel_xiaomi_mido
+          ref: d3baaff6d797893e6caea354b74ddf277ca62605
+          path: kernel-source
+          fetch-depth: 1
+      - name: Tools on disposable public runner
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential bc bison flex libssl-dev libelf-dev clang gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi
+      - name: Stage pinned Lenovo driver sources
+        run: node scripts/stage-lenovo-driver-probe.mjs kernel-source
+      - name: Report legacy configuration losses
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd kernel-source
+          make O=out-legacy ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- x704_legacy_probe_defconfig
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          def settings(p):
+              return dict(re.findall(r'^(CONFIG_\w+)=(.+)$', Path(p).read_text(), re.M))
+          old = settings('arch/arm64/configs/x704_legacy_probe_defconfig')
+          resolved = settings('out-legacy/.config')
+          for key, value in old.items():
+              if resolved.get(key) != value:
+                  print(f'CONFIG_DELTA {key}: legacy={value} resolved={resolved.get(key, "NOT_ENABLED_OR_UNKNOWN")}')
+          print('Configuration deltas are audit findings, not hardware test results.')
+          PY
+      - name: Compile isolated legacy battery driver against 4.9 headers
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd kernel-source
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- mido_defconfig
+          scripts/config --file out/.config --enable DEBUG_INFO_DWARF4
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- -j4 drivers/power/supply/qcom/x704-coulometer/couloMeter.o
+          sha256sum out/drivers/power/supply/qcom/x704-coulometer/couloMeter.o
+          echo 'Object compile only. No charger integration, module linkage, runtime validation or boot image.'

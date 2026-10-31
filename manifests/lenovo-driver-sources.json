@@ -1,0 +1,22 @@
+{
+  "repository": "lukaspieper/android_kernel_lenovo_msm8953",
+  "revision": "f21bb40e154a77e3e74da519e2477cf23a6fd261",
+  "files": [
+    {
+      "sha256": "db378f2c6dfb896a866dbb68c3256328c447b6abf6b15c4aeb18062feea05705",
+      "sourcePath": "drivers/power/couloMeter.c",
+      "targetPath": "drivers/power/supply/qcom/x704-coulometer/couloMeter.c"
+    },
+    {
+      "sha256": "6c4ebafc6480b926a7c69a699c2dd9410adec856a9c36ef538b7c46ad4ba7483",
+      "sourcePath": "drivers/power/couloMeter.h",
+      "targetPath": "drivers/power/supply/qcom/x704-coulometer/couloMeter.h"
+    },
+    {
+      "sha256": "e701d26426281fac21452a914922ebe64bb6128bac6e81ba65a51c85a1fe0a42",
+      "sourcePath": "arch/arm64/configs/lineageos_tbx704_defconfig",
+      "targetPath": "arch/arm64/configs/x704_legacy_probe_defconfig"
+    }
+  ],
+  "scope": "Compile/configuration probes only; not a completed driver port"
+}
