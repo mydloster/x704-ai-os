@@ -1,0 +1,267 @@
+{
+  "repository": "lukaspieper/android_kernel_lenovo_msm8953",
+  "revision": "f21bb40e154a77e3e74da519e2477cf23a6fd261",
+  "purpose": "Isolated FUSB302 compilation only; USB/VBUS glue is not ported",
+  "files": [
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Kconfig",
+      "sha256": "e1436d8cd5c9c3bc9be408179ec29df7414221e4aa81ead5b9930d72384b11d3",
+      "sourcePath": "drivers/power/onsemi/Kconfig"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Makefile",
+      "sha256": "d4fa277f2a53a12a8b6e5856526798c0183b164323ccdb77bb4baaf469a645e5",
+      "sourcePath": "drivers/power/onsemi/Makefile"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/core.c",
+      "sha256": "98c4b18aa5ccc0983792be2ecb072c31c2ead39412fdb48531f26fb8cda4e73d",
+      "sourcePath": "drivers/power/onsemi/core/core.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/core.h",
+      "sha256": "a8f225a00ffd94f7a3710f722045453e493ca544f028e7343688ca0a2cac99b9",
+      "sourcePath": "drivers/power/onsemi/core/core.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/fusb30X.c",
+      "sha256": "2efcba0a7c5cc744782c1d57caa7355683a8cfc3d0153092b50bee654e1b31d3",
+      "sourcePath": "drivers/power/onsemi/core/fusb30X.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/fusb30X.h",
+      "sha256": "555101607d885f4e1cb41b7933c29c2f6cd3cd6b3f0b38acecd63594f0bc6d22",
+      "sourcePath": "drivers/power/onsemi/core/fusb30X.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/Log.c",
+      "sha256": "d63a1ed7fb13085227d077776272133f5b1608b31a0409a8d572dded444a81fb",
+      "sourcePath": "drivers/power/onsemi/core/Log.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/Log.h",
+      "sha256": "ca0448eec470f2bd33e10d353be2b399566eb9d7856c0fcc99cc50334769a428",
+      "sourcePath": "drivers/power/onsemi/core/Log.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/Makefile",
+      "sha256": "7f3b217a950988626c880cea1b78ed3b26474d0af228c706edfdac63d3fe64e0",
+      "sourcePath": "drivers/power/onsemi/core/Makefile"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/PD_Types.h",
+      "sha256": "9b8d3ee19ed26f923c4f66069a4ffa0d67de22ebd12c583258c9e30cd8a45e0b",
+      "sourcePath": "drivers/power/onsemi/core/PD_Types.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/PDPolicy.c",
+      "sha256": "7c5d79bcbf5507c2eeda7cc01ca21b287aaaf548f8af56caa37136d1f7e2e8d0",
+      "sourcePath": "drivers/power/onsemi/core/PDPolicy.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/PDPolicy.h",
+      "sha256": "12f9aba2bbaf244a191076a58dae004bd0862bf7121518c77ee7cfccaa2735b4",
+      "sourcePath": "drivers/power/onsemi/core/PDPolicy.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/PDProtocol.c",
+      "sha256": "fe33356a81187d6ca5558d14956f43ef497a5a8200092e6b140ac98053707511",
+      "sourcePath": "drivers/power/onsemi/core/PDProtocol.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/PDProtocol.h",
+      "sha256": "d6633da80f5ca5d1bf88c4075ea24cae9a8dc7900c0514aa6e041cc7ae496fff",
+      "sourcePath": "drivers/power/onsemi/core/PDProtocol.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/platform.h",
+      "sha256": "ea2242cafa72f0a994d04541f345d855e646c688ffd63db9592ca38594eea9ca",
+      "sourcePath": "drivers/power/onsemi/core/platform.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/TypeC_Types.h",
+      "sha256": "9dc9312a08650daf7a745e6d80b89576dfcaafb3b477a8e1b32e06e19179253a",
+      "sourcePath": "drivers/power/onsemi/core/TypeC_Types.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/TypeC.c",
+      "sha256": "588a91927a4330c8365298414bb45789189073bc452e28a1f207ac515bd89a39",
+      "sourcePath": "drivers/power/onsemi/core/TypeC.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/TypeC.h",
+      "sha256": "83c6e834e0c588a6405e05c0419036e20f69314b9bff6160c3a25e618af95c4c",
+      "sourcePath": "drivers/power/onsemi/core/TypeC.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vendor_info.h",
+      "sha256": "0057b79fe298cb5ead989e69937539dd1678777428daf19b89065190d9c20248",
+      "sourcePath": "drivers/power/onsemi/core/vendor_info.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/version.h",
+      "sha256": "7ed05bbc45f62f449df4188f1502e22cdd98ef328a70a656d0401e53fff4a0d0",
+      "sourcePath": "drivers/power/onsemi/core/version.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/bitfield_translators.c",
+      "sha256": "d4e8fa92e6e424eaab01050fdddb9e10626dea8e5331ecf711a2ecf853d6ff76",
+      "sourcePath": "drivers/power/onsemi/core/vdm/bitfield_translators.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/bitfield_translators.h",
+      "sha256": "dd2c41116286e7d1f74181f639081d4ef56c9c52fee40edbd2a9e2d6de1a5240",
+      "sourcePath": "drivers/power/onsemi/core/vdm/bitfield_translators.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/fsc_vdm_defs.h",
+      "sha256": "0255e574644b2b8ddcad3ed9ef4957f05c2e43d87f263e708fbbe0b284c0ae36",
+      "sourcePath": "drivers/power/onsemi/core/vdm/fsc_vdm_defs.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/Makefile",
+      "sha256": "b5fde9c800e1bc7052934149f785cadb3f467ec9d0fc3af933cbd21765600283",
+      "sourcePath": "drivers/power/onsemi/core/vdm/Makefile"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/vdm_callbacks_defs.h",
+      "sha256": "e7a40c816aa091431b45fd92f80e7e445ff5da3c3527ccf31b113c40fb26b3d9",
+      "sourcePath": "drivers/power/onsemi/core/vdm/vdm_callbacks_defs.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/vdm_callbacks.c",
+      "sha256": "6034a0e829d421e23e78c8d23e6c7f4bf45c4b8044aa8cbb23e545eef5cd01b6",
+      "sourcePath": "drivers/power/onsemi/core/vdm/vdm_callbacks.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/vdm_callbacks.h",
+      "sha256": "24601ea6264902b6cd95ffb03e1973a0ad67f8d7e76dfda6b4c97fe6f1519bb0",
+      "sourcePath": "drivers/power/onsemi/core/vdm/vdm_callbacks.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/vdm_config.c",
+      "sha256": "8294d1a333b8f54db138ce28d98f4deb1fd1ce1ecb3f5f0652fe6aa66345afce",
+      "sourcePath": "drivers/power/onsemi/core/vdm/vdm_config.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/vdm_config.h",
+      "sha256": "9611234fd9169140ad435d5e11aa1e361bf1eb362871513ccc0d1522a4c18bf2",
+      "sourcePath": "drivers/power/onsemi/core/vdm/vdm_config.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/vdm_types.h",
+      "sha256": "dcf722afcba0f71f9facd32b80a2e6a9865a05e27ee669e31782fbbabbfd4063",
+      "sourcePath": "drivers/power/onsemi/core/vdm/vdm_types.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/vdm.c",
+      "sha256": "4ac6e5da6a6a57f9670c6932fee3a23aaf4a3f849eee8b3ff85329cdcc0c80f7",
+      "sourcePath": "drivers/power/onsemi/core/vdm/vdm.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/vdm.h",
+      "sha256": "9ca0594a77e3df5664872e8f3f4aef9c0cc65181aa344cfb39331024375296cd",
+      "sourcePath": "drivers/power/onsemi/core/vdm/vdm.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/DisplayPort/configure.c",
+      "sha256": "c3ba206485d9bdf4201f5c4d01b501840df1a6d8de50a796213429659cb3291e",
+      "sourcePath": "drivers/power/onsemi/core/vdm/DisplayPort/configure.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/DisplayPort/configure.h",
+      "sha256": "0299ceace2b96b7871ae79c132cb0d6ab311505f4273ec18ad7449078e4b5fe6",
+      "sourcePath": "drivers/power/onsemi/core/vdm/DisplayPort/configure.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/DisplayPort/dp_system_stubs.c",
+      "sha256": "3241fb3be8772ff88deb345c7e06d46b8c96b55ec646ad8d9c52d588402876f9",
+      "sourcePath": "drivers/power/onsemi/core/vdm/DisplayPort/dp_system_stubs.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/DisplayPort/dp_types.h",
+      "sha256": "4b530d93b909f03a38e5980ed96ae62abaefef122283cff09609919a68be8b0e",
+      "sourcePath": "drivers/power/onsemi/core/vdm/DisplayPort/dp_types.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/DisplayPort/dp.c",
+      "sha256": "627ee4a3a578dcdf3f0cdb8f540e7c424ef51e5764d8bdce51a8c6cf0c008694",
+      "sourcePath": "drivers/power/onsemi/core/vdm/DisplayPort/dp.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/DisplayPort/dp.h",
+      "sha256": "2fa8a69acd034d1350247ee77953710a8f1494e76d309050091783cf6c78edc6",
+      "sourcePath": "drivers/power/onsemi/core/vdm/DisplayPort/dp.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/DisplayPort/interface_dp.h",
+      "sha256": "37ae72edc64c41d64242ea484c1c77907a0c4fc5c09ba85998e0a9380884bee3",
+      "sourcePath": "drivers/power/onsemi/core/vdm/DisplayPort/interface_dp.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/core/vdm/DisplayPort/Makefile",
+      "sha256": "2f49a3aad7b20cafb21854fe65722edeba808be96b9010a68ff6873539fe9b3d",
+      "sourcePath": "drivers/power/onsemi/core/vdm/DisplayPort/Makefile"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/FSCTypes.h",
+      "sha256": "9db6ef8c77bbfd737b4730ebb5dc17a1cff0bc8f8d0db403921d140592765114",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/FSCTypes.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/fusb30x_driver.c",
+      "sha256": "b0a48580b9a7c4c401322e4f1445cced9232c66058c3c8fd83c1e5765ce81592",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/fusb30x_driver.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/fusb30x_driver.h",
+      "sha256": "8d4b29017463b5cb45514fcbc66d6d52e39561d2274826903c8a2a7ca84e4470",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/fusb30x_driver.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/fusb30x_global.c",
+      "sha256": "9f36b0638a42eb7da66bdde01c35d61c6e752330283e4b214f562f7e608c60f4",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/fusb30x_global.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/fusb30x_global.h",
+      "sha256": "60795e060d108f6004ce53e08676792ed3657346a6736c7d2e34d8a2bec4cdcc",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/fusb30x_global.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/hostcomm.c",
+      "sha256": "51c29de596620b650d6db69511b68b35e2590c18395978da2286c268f7f061f5",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/hostcomm.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/hostcomm.h",
+      "sha256": "7998b8850d2b78b9351b5edf5bb4c18a9bd5e9c9300a72e4b867a8d22f5d8704",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/hostcomm.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/Makefile",
+      "sha256": "a5bada7914588dc5b0d58e5cb8412cb71673bb325e3d05478f3b964fb2ab68ff",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/Makefile"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/platform_helpers.c",
+      "sha256": "2853fcb3a4822204d347e1d2705400e25ae48b70cfe2ce868556ac7958d83bd9",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/platform_helpers.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/platform_helpers.h",
+      "sha256": "0245b666ac61ee03f8ed33e95ef4bc6c6720942f83568f7923f8a1055007506e",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/platform_helpers.h"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/platform.c",
+      "sha256": "b156d1f5a29137c3edd0e33da70c1b97fad7e3cba02e3dd1b9ecd6f5b238b68b",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/platform.c"
+    },
+    {
+      "targetPath": "drivers/power/supply/qcom/x704-onsemi/Platform_Linux/README.txt",
+      "sha256": "81b9e076673b2899278743d9b65268a56ce8b94337c005a2909b9cc55f0e1b65",
+      "sourcePath": "drivers/power/onsemi/Platform_Linux/README.txt"
+    }
+  ]
+}

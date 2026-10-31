@@ -1,0 +1,36 @@
+name: Lenovo FUSB302 isolated API compile probe (NO FLASH)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compile-fusb:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-22.04-arm
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: zeelog/android_kernel_xiaomi_mido
+          ref: d3baaff6d797893e6caea354b74ddf277ca62605
+          path: kernel-source
+          fetch-depth: 1
+      - name: Tools on disposable public runner
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential bc bison flex libssl-dev libelf-dev clang gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi
+      - name: Stage hash-verified legacy FUSB302 sources
+        run: node scripts/stage-lenovo-fusb-probe.mjs kernel-source
+      - name: Compile isolated FUSB302 objects and show unresolved glue dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd kernel-source
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- mido_defconfig
+          scripts/config --file out/.config --enable DEBUG_INFO_DWARF4 --enable USB_FUSB302
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- olddefconfig
+          grep '^CONFIG_USB_FUSB302=y$' out/.config
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- -j4 drivers/power/supply/qcom/x704-onsemi/
+          nm -u out/drivers/power/supply/qcom/x704-onsemi/built-in.o
+          echo 'Isolated object compilation only. Undefined fusb_enable_vbus/fusb_dwc3_msm require an actual USB/VBUS port; no stubs or boot images are provided.'
