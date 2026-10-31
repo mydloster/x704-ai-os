@@ -32,9 +32,11 @@ jobs:
           cd kernel-source
           test "$(git rev-parse HEAD)" = d3baaff6d797893e6caea354b74ddf277ca62605
           make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- mido_defconfig
-          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- -j2 Image.gz-dtb
+          # The 4.9 build scripts/binutils expect DWARF <=4; Clang 14 defaults to 5.
+          scripts/config --file out/.config --enable DEBUG_INFO_DWARF4
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- olddefconfig
+          grep '^CONFIG_DEBUG_INFO_DWARF4=y$' out/.config
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- -j4 Image.gz-dtb
           sha256sum out/arch/arm64/boot/Image.gz-dtb
           echo 'REFERENCE COMPILE ONLY: this is a Xiaomi mido kernel, not flashable on TB-X704L.'
       # No artifacts or caches are uploaded: avoids storage billing. No secrets or devices.
-
-
