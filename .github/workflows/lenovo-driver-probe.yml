@@ -40,6 +40,32 @@ jobs:
                   print(f'CONFIG_DELTA {key}: legacy={value} resolved={resolved.get(key, "NOT_ENABLED_OR_UNKNOWN")}')
           print('Configuration deltas are audit findings, not hardware test results.')
           PY
+      - name: Probe renamed Qualcomm architecture dependency without enabling Xiaomi board support
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd kernel-source
+          grep '^CONFIG_ARCH_MSM=y$' arch/arm64/configs/x704_legacy_probe_defconfig
+          test ! -e arch/arm64/configs/x704_arch_probe_defconfig
+          sed 's/^CONFIG_ARCH_MSM=y$/CONFIG_ARCH_QCOM=y/' arch/arm64/configs/x704_legacy_probe_defconfig > arch/arm64/configs/x704_arch_probe_defconfig
+          make O=out-arch ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- x704_arch_probe_defconfig
+          grep '^CONFIG_ARCH_QCOM=y$' out-arch/.config
+          grep '^CONFIG_ARCH_MSM8953=y$' out-arch/.config
+          if grep -q '^CONFIG_MACH_XIAOMI=y$' out-arch/.config; then exit 1; fi
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          def settings(p):
+              return dict(re.findall(r'^(CONFIG_\w+)=(.+)$', Path(p).read_text(), re.M))
+          old = settings('arch/arm64/configs/x704_legacy_probe_defconfig')
+          resolved = settings('out-arch/.config')
+          changes = [(k, v, resolved.get(k, 'NOT_ENABLED_OR_UNKNOWN')) for k, v in old.items() if resolved.get(k) != v]
+          print(f'ARCH_MIGRATION_DELTA_COUNT {len(changes)}')
+          for key, previous, current in changes:
+              print(f'ARCH_CONFIG_DELTA {key}: legacy={previous} resolved={current}')
+          for key in ['CONFIG_QPNP_FG', 'CONFIG_QPNP_SMBCHARGER', 'CONFIG_MFD_SPMI_PMIC', 'CONFIG_COULO_METER', 'CONFIG_USB_FUSB302']:
+              print(f'ARCH_CRITICAL_CONFIG {key}={resolved.get(key, "NOT_ENABLED_OR_UNKNOWN")}')
+          PY
       - name: Compile isolated legacy battery driver against 4.9 headers
         shell: bash
         run: |
