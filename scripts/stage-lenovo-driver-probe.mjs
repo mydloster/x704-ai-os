@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { adaptCoulometerPm } from './lenovo-coulometer-adaptations.mjs';
 
 const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 if (!process.argv[2]) throw new Error('Pass the disposable kernel checkout path');
@@ -20,7 +21,8 @@ for (const file of plan.files) {
   if (!response.ok) throw new Error(`Download failed: ${response.status}`);
   const bytes = Buffer.from(await response.arrayBuffer());
   if (crypto.createHash('sha256').update(bytes).digest('hex') !== file.sha256) throw new Error(`Hash mismatch: ${file.sourcePath}`);
-  pending.push({target,bytes});
+  const stagedBytes = file.sourcePath === 'drivers/power/couloMeter.c' ? Buffer.from(adaptCoulometerPm(bytes.toString('utf8'))) : bytes;
+  pending.push({target,bytes:stagedBytes});
 }
 const kbuild = path.join(kernel, 'drivers/power/supply/qcom/x704-coulometer/Makefile');
 if (fs.existsSync(kbuild)) throw new Error('Refusing to overwrite existing Kbuild');
@@ -29,4 +31,4 @@ for (const item of pending) {
   fs.writeFileSync(item.target, item.bytes, {flag:'wx'});
 }
 fs.writeFileSync(kbuild, 'obj-y += couloMeter.o\n', {flag:'wx'});
-console.log('Staged hash-verified legacy battery driver and config for compile probes only. Not integrated into a boot image.');
+console.log('Staged hash-verified legacy battery driver with dev_pm_ops API migration and original config for compile probes only. Not integrated into a boot image.');
