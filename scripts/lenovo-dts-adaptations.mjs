@@ -7,3 +7,24 @@ export function adaptTopLevelDts(source) {
   return source.replace(oldPmic, '#include "pmi8950.dtsi"')
     .replace(sku, sku + '\n#include "msm8953-pmi8950.dtsi"');
 }
+
+// Parser dependency fix: the legacy qrd overlay references labels introduced
+// by the PMIC overlay. Resolve them before applying the qrd modifications.
+export function adaptOverlayOrder(source) {
+  const pmic = '#include "tbx704-msm-pmi8950.dtsi"';
+  const qrd = '#include "tbx704-msm8953-qrd.dtsi"';
+  if (source.split(pmic).length !== 2 || source.split(qrd).length !== 2) throw new Error('Unexpected overlay anchors.');
+  if (source.indexOf(pmic) < source.indexOf(qrd)) throw new Error('PMIC overlay already ordered.');
+  return source.replace(pmic, '').replace(qrd, pmic + '\n' + qrd);
+}
+
+// Compile probe only: 4.9 splits the old WCD codec into digital/analog nodes.
+// This label mapping does NOT establish that audio controls/routing work.
+export function adaptAudioLabels(source) {
+  const mappings = [['&pm8953_diangu_dig', '&msm_digital_codec'], ['&pm8953_diangu_analog', '&pmic_analog_codec']];
+  for (const [oldLabel, newLabel] of mappings) {
+    if (source.split(oldLabel).length !== 2) throw new Error('Unexpected legacy audio label.');
+    source = source.replace(oldLabel, newLabel);
+  }
+  return source;
+}
