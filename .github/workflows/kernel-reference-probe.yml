@@ -21,7 +21,7 @@ jobs:
       - name: Install build dependencies only on this disposable public runner
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends build-essential bc bison flex libssl-dev libelf-dev clang lld llvm device-tree-compiler
+          sudo apt-get install -y --no-install-recommends build-essential bc bison flex libssl-dev libelf-dev clang lld llvm device-tree-compiler gcc-arm-linux-gnueabi binutils-arm-linux-gnueabi
       - name: Compile reference and record result
         shell: bash
         run: |
@@ -31,8 +31,10 @@ jobs:
           free -h
           cd kernel-source
           test "$(git rev-parse HEAD)" = d3baaff6d797893e6caea354b74ddf277ca62605
-          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- mido_defconfig
-          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- -j2 Image.gz-dtb
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- mido_defconfig
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- -j2 Image.gz-dtb
           sha256sum out/arch/arm64/boot/Image.gz-dtb
           echo 'REFERENCE COMPILE ONLY: this is a Xiaomi mido kernel, not flashable on TB-X704L.'
       # No artifacts or caches are uploaded: avoids storage billing. No secrets or devices.
+
+
