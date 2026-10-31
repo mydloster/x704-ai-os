@@ -29,6 +29,6 @@ jobs:
           cd kernel-source
           test "$(git rev-parse HEAD)" = d3baaff6d797893e6caea354b74ddf277ca62605
           make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- mido_defconfig
-          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- qcom/tbx704-msm8953-qrd.dtb
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- DTC_FLAGS= V=1 qcom/tbx704-msm8953-qrd.dtb
           echo 'DTS syntax/dependency probe only. No validated Lenovo kernel or ROM was produced.'
       # No artifacts, caches, private credentials, ROM builds or device access.
