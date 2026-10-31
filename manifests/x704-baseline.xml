@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Local manifest only: base AOSP/Lineage projects are NOT fully frozen by this file. -->
+<manifest>
+  <remote name="x704-github" fetch="https://github.com/" />
+  <project name="lukaspieper/android_device_lenovo_tb_x704f"
+      path="device/lenovo/TBX704" remote="x704-github"
+      revision="3889a31d9456a4bea4358f30a98511041b9cd80a" />
+  <project name="lukaspieper/android_kernel_lenovo_msm8953"
+      path="kernel/lenovo/msm8953" remote="x704-github"
+      revision="f21bb40e154a77e3e74da519e2477cf23a6fd261" />
+  <!-- Vendor download requires a separate license/provenance review.
+       Candidate: lukaspieper/android_vendor_lenovo_tb_x704f
+       revision e7deafda891618d4899dac0ca8521ec4f158320a
+       path vendor/lenovo/TBX704. Intentionally not enabled here. -->
+</manifest>

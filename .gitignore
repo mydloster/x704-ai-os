@@ -1,0 +1,8 @@
+build/
+backups/
+*.jks
+*.keystore
+*.pk8
+.env
+local.properties
+**/node_modules/

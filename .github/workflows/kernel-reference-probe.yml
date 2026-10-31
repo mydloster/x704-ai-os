@@ -1,0 +1,38 @@
+name: MSM8953 4.9 reference compile probe (NOT a Lenovo ROM)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compile-reference:
+    if: github.event.repository.private == false
+    runs-on: ubuntu-22.04-arm
+    timeout-minutes: 90
+    steps:
+      - name: Checkout project instructions
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Checkout pinned reference kernel
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: zeelog/android_kernel_xiaomi_mido
+          ref: d3baaff6d797893e6caea354b74ddf277ca62605
+          path: kernel-source
+          fetch-depth: 1
+      - name: Install build dependencies only on this disposable public runner
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential bc bison flex libssl-dev libelf-dev clang lld llvm device-tree-compiler
+      - name: Compile reference and record result
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = aarch64
+          df -h .
+          free -h
+          cd kernel-source
+          test "$(git rev-parse HEAD)" = d3baaff6d797893e6caea354b74ddf277ca62605
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- mido_defconfig
+          make O=out ARCH=arm64 CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- -j2 Image.gz-dtb
+          sha256sum out/arch/arm64/boot/Image.gz-dtb
+          echo 'REFERENCE COMPILE ONLY: this is a Xiaomi mido kernel, not flashable on TB-X704L.'
+      # No artifacts or caches are uploaded: avoids storage billing. No secrets or devices.

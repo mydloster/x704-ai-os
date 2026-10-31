@@ -1,0 +1,25 @@
+name: X704 source checks (no ROM build)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-checks:
+    # Standard public-repository runner only; do not consume paid private minutes.
+    if: github.event.repository.private == false
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Fetch upstream source without republishing it in this repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: lukaspieper/android_device_lenovo_tb_x704f
+          ref: 3889a31d9456a4bea4358f30a98511041b9cd80a
+          path: device/upstream/lukaspieper-android_device_lenovo_tb_x704f-3889a31
+          fetch-depth: 1
+      - name: Prepare local scratch directory
+        run: mkdir -p build
+      - name: Source integration and evidence-gate tests
+        run: node --test tests/rom-staging.test.mjs tests/release-gate.test.mjs
+      # No artifact/cache upload, cloud credentials, vendor blobs or device access.
