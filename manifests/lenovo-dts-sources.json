@@ -1,0 +1,109 @@
+{
+  "repository": "lukaspieper/android_kernel_lenovo_msm8953",
+  "revision": "f21bb40e154a77e3e74da519e2477cf23a6fd261",
+  "purpose": "Unmodified legacy DTS compile probe only; NOT a usable board port",
+  "files": [
+    {
+      "name": "dsi-panel-nt51021b-inx-wuxga-video.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/dsi-panel-nt51021b-inx-wuxga-video.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/dsi-panel-nt51021b-inx-wuxga-video.dtsi",
+      "sha256": "aa29c64ab8f1fb19ed8303488fbf3d37a60ac1dcc6e5b1121f94cb7dc877e040"
+    },
+    {
+      "name": "dsi-panel-nt51021bboe-inx-wuxga-video.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/dsi-panel-nt51021bboe-inx-wuxga-video.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/dsi-panel-nt51021bboe-inx-wuxga-video.dtsi",
+      "sha256": "6ebb378d278453a6c2a95675f14b3396c2e9f911e6984385d5a1ed3afcebf8f9"
+    },
+    {
+      "name": "Huaqin_A609x_7000mAh_averaged_MasterSlave.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/Huaqin_A609x_7000mAh_averaged_MasterSlave.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/Huaqin_A609x_7000mAh_averaged_MasterSlave.dtsi",
+      "sha256": "458698fb67179dcdc7abf65021fc57b3f8a8e686f7856a50bbf98a039d11ac06"
+    },
+    {
+      "name": "Huaqin_A609x_7000mAh_averaged_SecondSlave.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/Huaqin_A609x_7000mAh_averaged_SecondSlave.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/Huaqin_A609x_7000mAh_averaged_SecondSlave.dtsi",
+      "sha256": "f830767fde28a880edb3f75d4c327010b8f4bc67de9b3ac7740e7692adb387d2"
+    },
+    {
+      "name": "tbx704-msm-pm8953.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-msm-pm8953.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-msm-pm8953.dtsi",
+      "sha256": "6a73649eaeaeb2985ea58c089e280e16991dcf2f29f23e786a0b8e87fe1e9c52"
+    },
+    {
+      "name": "tbx704-msm-pmi8950.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-msm-pmi8950.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-msm-pmi8950.dtsi",
+      "sha256": "c7ed8c5725b64aaa9084728d66468321c76c0a4559f1da2f97ca09a059c3ca6f"
+    },
+    {
+      "name": "tbx704-msm8953-audio.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-msm8953-audio.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-msm8953-audio.dtsi",
+      "sha256": "0a440568628ee60a7afca115ed4a462b186136f5680da10f8ced20515957757e"
+    },
+    {
+      "name": "tbx704-msm8953-camera-sensor-qrd.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-msm8953-camera-sensor-qrd.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-msm8953-camera-sensor-qrd.dtsi",
+      "sha256": "8105a5a6afd150b23d8e28d961d14aae9640c9a3b6cc6110233b50b83e3cde05"
+    },
+    {
+      "name": "tbx704-msm8953-mdss-panels.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-msm8953-mdss-panels.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-msm8953-mdss-panels.dtsi",
+      "sha256": "c2f0e274539af631baf726c13b6f9b9c04e69fe5b66960d36d4fdfd637805a78"
+    },
+    {
+      "name": "tbx704-msm8953-mdss.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-msm8953-mdss.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-msm8953-mdss.dtsi",
+      "sha256": "fd64b81154431c2901e0d397f499489f31903676a51a0cc23fb42535b2ae30f0"
+    },
+    {
+      "name": "tbx704-msm8953-pinctrl.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-msm8953-pinctrl.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-msm8953-pinctrl.dtsi",
+      "sha256": "b742fb5af5c723e5f91b0653af468b2bc66b2013607d070825c3b2e746b6a353"
+    },
+    {
+      "name": "tbx704-msm8953-qrd-sku3.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-msm8953-qrd-sku3.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-msm8953-qrd-sku3.dtsi",
+      "sha256": "6372439ebb8a537128066d334a8cc42920dc0a9122193468ef0cf1a1287720fd"
+    },
+    {
+      "name": "tbx704-msm8953-qrd.dts",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704-msm8953-qrd.dts",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704-msm8953-qrd.dts",
+      "sha256": "60711af6ffa3695282964c9936820f7afbae9f1f04c22ee01a40a14f339c1d24"
+    },
+    {
+      "name": "tbx704-msm8953-qrd.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-msm8953-qrd.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-msm8953-qrd.dtsi",
+      "sha256": "7255fa6cda5ee4c4adb3617056b8609d5c6735b329087d41a5a7a6622dc5247e"
+    },
+    {
+      "name": "tbx704-msm8953-regulator.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-msm8953-regulator.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-msm8953-regulator.dtsi",
+      "sha256": "0acc94e866cb34968bc44c48a985b750f4a578ff013e788a4a9724aa2f46823b"
+    },
+    {
+      "name": "tbx704-msm8953.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-msm8953.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-msm8953.dtsi",
+      "sha256": "5792a19c6b8908d197aff2ebbb8f3cfd6790391e6cc5b18941615ca504756f60"
+    },
+    {
+      "name": "tbx704-overlay.dtsi",
+      "sourcePath": "arch/arm/boot/dts/qcom/tbx704/tbx704-overlay.dtsi",
+      "targetPath": "arch/arm64/boot/dts/qcom/tbx704/tbx704-overlay.dtsi",
+      "sha256": "6f62a05e8f7865e9a9f8b9e6461ec23b027c1d45a443e898e59a0ffc924fe80d"
+    }
+  ]
+}
