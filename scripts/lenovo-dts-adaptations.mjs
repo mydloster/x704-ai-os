@@ -37,14 +37,23 @@ export function adaptHapticNode(source) {
   return source.replace(oldNode, 'pmi_haptic: qcom,haptics@c000');
 }
 
-// Linux 4.9 ramoops reads its backing range from the standard DT resource.
-// Preserve Lenovo's Android ramoops fields and expose the same reserved range.
+// Linux 4.9 ramoops reads the backing range and ring sizes from standard
+// DT properties. Keep Lenovo's Android properties alongside these aliases.
 export function adaptRamoops(source) {
   const anchor = /ramoops\s*\{\s*compatible\s*=\s*"ramoops";\s*status\s*=\s*"ok";/g;
   const matches = [...source.matchAll(anchor)];
   if (matches.length !== 1) throw new Error('Unexpected Lenovo ramoops DTS anchor.');
   const bodyStart = matches[0].index;
   const bodyEnd = source.indexOf('};', bodyStart);
-  if (bodyEnd < 0 || /\\breg\\s*=/.test(source.slice(bodyStart, bodyEnd))) throw new Error('Unexpected existing ramoops reg property.');
-  return source.replace(anchor, matches[0][0] + '\\n\\t\\treg = <0x8ee00000 0x80000>;');
+  if (bodyEnd < 0 || /\b(reg|record-size|console-size|ftrace-size|pmsg-size)\s*=/.test(source.slice(bodyStart, bodyEnd))) {
+    throw new Error('Unexpected existing standard ramoops properties.');
+  }
+  const additions = [
+    'reg = <0x8ee00000 0x80000>;',
+    'record-size = <0x5000>;',
+    'console-size = <0x40000>;',
+    'ftrace-size = <0x15000>;',
+    'pmsg-size = <0x20000>;',
+  ].join('\n\t\t');
+  return source.replace(anchor, matches[0][0] + '\n\t\t' + additions);
 }
