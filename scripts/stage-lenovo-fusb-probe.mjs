@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { adaptFusbSource } from './lenovo-fusb-adaptations.mjs';
 const project=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 if(!process.argv[2]) throw new Error('Pass the disposable kernel checkout');
 const kernel=path.resolve(process.argv[2]);
@@ -24,9 +25,11 @@ for(const file of plan.files) {
   if(!response.ok) throw new Error(`Download failed: ${response.status}`);
   const bytes=Buffer.from(await response.arrayBuffer());
   if(crypto.createHash('sha256').update(bytes).digest('hex')!==file.sha256) throw new Error(`Hash mismatch: ${file.sourcePath}`);
-  pending.push({target,bytes});
+  const relative=file.sourcePath.slice('drivers/power/onsemi/'.length);
+  const adapted=adaptFusbSource(relative,bytes.toString('utf8'));
+  pending.push({target,bytes:Buffer.from(adapted)});
 }
 for(const item of pending) {fs.mkdirSync(path.dirname(item.target),{recursive:true});fs.writeFileSync(item.target,item.bytes,{flag:'wx'});}
 fs.writeFileSync(configPath,config+'\nsource "drivers/power/supply/qcom/x704-onsemi/Kconfig"\n');
 fs.writeFileSync(makePath,make+'\nobj-$(CONFIG_USB_FUSB302) += x704-onsemi/\n');
-console.log('Staged 52 unchanged hash-verified FUSB302 sources for isolated compilation. Required Lenovo dwc3/VBUS glue is NOT implemented.');
+console.log('Staged 52 hash-verified FUSB302 sources with explicit wakeup-source API migration. Required Lenovo dwc3/VBUS glue is NOT implemented.');
