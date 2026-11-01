@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { adaptTopLevelDts, adaptOverlayOrder, adaptAudioLabels, adaptHapticNode } from './lenovo-dts-adaptations.mjs';
+import { adaptTopLevelDts, adaptOverlayOrder, adaptAudioLabels, adaptHapticNode, adaptRamoops } from './lenovo-dts-adaptations.mjs';
 
 const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 if (!process.argv[2]) throw new Error('Pass the disposable reference kernel checkout path.');
@@ -27,6 +27,7 @@ for (const file of plan.files) {
     'tbx704-overlay.dtsi': adaptOverlayOrder,
     'tbx704-msm8953-qrd-sku3.dtsi': adaptAudioLabels,
     'tbx704-msm-pmi8950.dtsi': adaptHapticNode,
+    'tbx704-msm8953.dtsi': adaptRamoops,
   };
   const stagedBytes = adaptations[file.name] ? Buffer.from(adaptations[file.name](bytes.toString('utf8'))) : bytes;
   downloads.push({ target, bytes: stagedBytes });
