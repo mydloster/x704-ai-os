@@ -43,3 +43,12 @@ Both Goodix implementations parse goodix,irq-gpio, goodix,rst-gpio and goodix,cf
 Before any test image: resolve the compiled Lenovo DTB review findings, select and integrate the Lenovo driver/config set, audit storage and nocmdq handling, and validate image format/signature and recovery. Full modern Android build capacity is still unresolved under the free-only requirement.
 
 No new Android 12+ image has been built or flashed by these probes.
+
+## Lenovo TB-X704L RAM-only boot probe — 2026-11-01
+
+- CI run [41328991137](https://github.com/mydloster/x704-ai-os/actions/runs/41328991137) passed for commit `a58edb221bbb66d19c505813ef3598397b3a8fa9`. The effective config has `CONFIG_PSTORE=y`, `CONFIG_PSTORE_CONSOLE=y` and `CONFIG_PSTORE_RAM=y`.
+- The generated DTB's `/soc/ramoops` node contains standard `reg=<0x8ee00000 0x80000>`, `record-size=<0x5000>`, `console-size=<0x40000>`, `ftrace-size=<0x15000>` and `pmsg-size=<0x20000>`. DTB SHA-256: `f5daf2f6fff7eacf8aa6f2b345505121d249a1f4f46056738159a417ae0b2fb4`. Compile-only `Image.gz-dtb` SHA-256: `ccbcB90B8EAF72AF4E52ACBBAC61D7757FACB23FE3E57C3181A49AFF1775FB3C`.
+- Boot image SHA-256: `c75a9258cc760a0c4262f9ca35e3796ac98db419c95806bec19b576d7b8627b0`; BootSignature verification passed. It was started with `fastboot boot` only. Fastboot accepted and started the transfer, after which the USB interface disappeared and the display remained on the frozen Fastboot screen.
+- After a physical restart and `fastboot reboot`, the installed LineageOS 18.1 / Android 11 system and ADB returned. No partition was flashed or erased.
+- The pstore console contained the previous Linux 3.18 log ending in `Restarting system with command 'bootloader'`, and no 4.9 banner. The ramoops configuration is structurally present, but this run does not establish whether 4.9 stopped before ramoops initialized or failed earlier. Exact failure stage remains unknown; an independently observable early-boot channel (for example, UART) is the next diagnostic need.
+- This is a failed hardware boot probe, not a validated kernel, ROM or recovery image. Earlier 4.9 runs with the candidate and original Lenovo DTB had the same USB-loss symptom.
