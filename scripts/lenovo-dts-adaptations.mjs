@@ -36,3 +36,15 @@ export function adaptHapticNode(source) {
   if (source.split(oldNode).length !== 2) throw new Error('Unexpected legacy haptic node.');
   return source.replace(oldNode, 'pmi_haptic: qcom,haptics@c000');
 }
+
+// Linux 4.9 ramoops reads its backing range from the standard DT resource.
+// Preserve Lenovo's Android ramoops fields and expose the same reserved range.
+export function adaptRamoops(source) {
+  const anchor = /ramoops\s*\{\s*compatible\s*=\s*"ramoops";\s*status\s*=\s*"ok";/g;
+  const matches = [...source.matchAll(anchor)];
+  if (matches.length !== 1) throw new Error('Unexpected Lenovo ramoops DTS anchor.');
+  const bodyStart = matches[0].index;
+  const bodyEnd = source.indexOf('};', bodyStart);
+  if (bodyEnd < 0 || /\\breg\\s*=/.test(source.slice(bodyStart, bodyEnd))) throw new Error('Unexpected existing ramoops reg property.');
+  return source.replace(anchor, matches[0][0] + '\\n\\t\\treg = <0x8ee00000 0x80000>;');
+}
