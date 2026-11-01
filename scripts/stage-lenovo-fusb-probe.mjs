@@ -26,8 +26,9 @@ for(const file of plan.files) {
   const bytes=Buffer.from(await response.arrayBuffer());
   if(crypto.createHash('sha256').update(bytes).digest('hex')!==file.sha256) throw new Error(`Hash mismatch: ${file.sourcePath}`);
   const relative=file.sourcePath.slice('drivers/power/onsemi/'.length);
-  const adapted=adaptFusbSource(relative,bytes.toString('utf8'));
-  pending.push({target,bytes:Buffer.from(adapted)});
+  const needsMigration=['Platform_Linux/fusb30x_global.h','Platform_Linux/platform_helpers.c'].includes(relative);
+  const stagedBytes=needsMigration?Buffer.from(adaptFusbSource(relative,bytes.toString('utf8'))):bytes;
+  pending.push({target,bytes:stagedBytes});
 }
 for(const item of pending) {fs.mkdirSync(path.dirname(item.target),{recursive:true});fs.writeFileSync(item.target,item.bytes,{flag:'wx'});}
 fs.writeFileSync(configPath,config+'\nsource "drivers/power/supply/qcom/x704-onsemi/Kconfig"\n');

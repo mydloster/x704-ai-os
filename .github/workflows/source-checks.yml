@@ -21,5 +21,5 @@ jobs:
       - name: Prepare local scratch directory
         run: mkdir -p build
       - name: Source integration and evidence-gate tests
-        run: node --test tests/rom-staging.test.mjs tests/release-gate.test.mjs tests/lenovo-dts-adaptations.test.mjs tests/dtb-audit.test.mjs tests/coulometer-adaptations.test.mjs
+        run: node --test tests/rom-staging.test.mjs tests/release-gate.test.mjs tests/lenovo-dts-adaptations.test.mjs tests/dtb-audit.test.mjs tests/coulometer-adaptations.test.mjs tests/fusb-adaptations.test.mjs tests/coulometer-integration.test.mjs
       # No artifact/cache upload, cloud credentials, vendor blobs or device access.
