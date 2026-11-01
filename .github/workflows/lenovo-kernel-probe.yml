@@ -6,6 +6,8 @@ on:
     paths:
       - 'kernel/x70449-migration.config'
       - '.github/workflows/lenovo-kernel-probe.yml'
+      - 'scripts/lenovo-dts-adaptations.mjs'
+      - 'scripts/stage-lenovo-dts-probe.mjs'
 permissions:
   contents: read
 jobs:
@@ -46,7 +48,7 @@ jobs:
               return dict(re.findall(r'^(CONFIG_\w+)=(.+)$', Path(p).read_text(), re.M))
           old = read('arch/arm64/configs/x704_legacy_probe_defconfig')
           config = read('out/.config')
-          for symbol in ['MAILBOX','INPUT_FF_MEMLESS','MFD_SYSCON','REGMAP_MMIO','ARCH_QCOM','ARCH_MSM8953','QCOM_SCM','SECURITY_SELINUX','MMC_SDHCI_MSM','MMC_BLOCK','FB_MSM_MDSS','SPMI','SPMI_MSM_PMIC_ARB','MFD_SPMI_PMIC','PINCTRL_QCOM_SPMI_PMIC','INPUT_QPNP_POWER_ON','QPNP_FG','QPNP_SMBCHARGER','X704_COULOMETER','DEBUG_INFO_DWARF4','SCHED_WALT','CFQ_GROUP_IOSCHED','MSM_VIDC_3X_V4L2']:
+          for symbol in ['MAILBOX','INPUT_FF_MEMLESS','MFD_SYSCON','REGMAP_MMIO','ARCH_QCOM','ARCH_MSM8953','QCOM_SCM','SECURITY_SELINUX','MMC_SDHCI_MSM','MMC_BLOCK','FB_MSM_MDSS','SPMI','SPMI_MSM_PMIC_ARB','MFD_SPMI_PMIC','PINCTRL_QCOM_SPMI_PMIC','INPUT_QPNP_POWER_ON','QPNP_FG','QPNP_SMBCHARGER','X704_COULOMETER','DEBUG_INFO_DWARF4','SCHED_WALT','CFQ_GROUP_IOSCHED','MSM_VIDC_3X_V4L2','PSTORE','PSTORE_CONSOLE','PSTORE_RAM']:
               key = 'CONFIG_' + symbol
               print(f'PMIC_CONFIG {key}={config.get(key, "NOT_ENABLED_OR_UNKNOWN")}')
               assert config.get(key) == 'y', f'Required dependency not enabled: {key}'
@@ -58,6 +60,7 @@ jobs:
               print(f'PMIC_CONFIG_DELTA {k}: legacy={previous} resolved={current}')
           print('Remaining configuration differences need review; no hardware pass is implied.')
           PY
+          cp out/.config out/x70449-effective.config
       - name: Compile kernel and Lenovo DTB with the migrated configuration
         shell: bash
         run: |
@@ -77,5 +80,6 @@ jobs:
           path: |
             kernel-source/out/x70449-compile-only-Image.gz-dtb
             kernel-source/out/x70449-compile-only-Image-dtb
+            kernel-source/out/x70449-effective.config
           retention-days: 3
       # No credentials, vendor binaries or device access.
