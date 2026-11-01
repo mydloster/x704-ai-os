@@ -68,4 +68,10 @@ jobs:
           cat out/arch/arm64/boot/Image.gz out/arch/arm64/boot/dts/qcom/tbx704-msm8953-qrd.dtb > out/x70449-compile-only-Image.gz-dtb
           sha256sum out/arch/arm64/boot/Image.gz out/arch/arm64/boot/dts/qcom/tbx704-msm8953-qrd.dtb out/x70449-compile-only-Image.gz-dtb
           echo 'COMPILE EXPERIMENT ONLY. USB-C, fuel-gauge integration, touch, cameras and userspace ABI are not validated. Not a release or boot-tested image.'
-      # No artifact/cache uploads, credentials, vendor binaries or device access.
+      - name: Retain compile-only kernel image for local packaging review
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: x704l-kernel-compile-only
+          path: kernel-source/out/x70449-compile-only-Image.gz-dtb
+          retention-days: 3
+      # No credentials, vendor binaries or device access.
