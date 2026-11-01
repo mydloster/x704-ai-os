@@ -40,7 +40,7 @@ Hash verification is performed on all 17 original downloads before applying the 
 
 Both Goodix implementations parse goodix,irq-gpio, goodix,rst-gpio and goodix,cfg-group%d and advertise goodix,gt9xx. This is only binding overlap. The legacy source contains a pen rotation helper, but its inspected call site is commented out; that helper alone is not evidence that a runtime rotation patch is required. Configuration, panel coordinates and actual multitouch behavior still need separate verification.
 
-Before any test image: resolve the compiled Lenovo DTB review findings, select and integrate the Lenovo driver/config set, audit storage and nocmdq handling, and validate image format/signature and recovery. Full modern Android build capacity is still unresolved under the free-only requirement.
+Before a broader or persistent test image: resolve the compiled Lenovo DTB review findings, select and integrate the Lenovo driver/config set, audit storage and nocmdq handling, and validate image format/signature and recovery. Full modern Android build capacity is still unresolved under the free-only requirement.
 
 No new Android 12+ image has been built or flashed by these probes.
 
