@@ -51,6 +51,7 @@ jobs:
               print(f'PMIC_CONFIG {key}={config.get(key, "NOT_ENABLED_OR_UNKNOWN")}')
               assert config.get(key) == 'y', f'Required dependency not enabled: {key}'
           assert config.get('CONFIG_MACH_XIAOMI') != 'y', 'Wrong board support selected'
+          assert config.get('CONFIG_RANDOMIZE_BASE') != 'y', 'Legacy boot diagnostic requires fixed kernel placement'
           changes = [(k,v,config.get(k,'NOT_ENABLED_OR_UNKNOWN')) for k,v in old.items() if config.get(k) != v]
           print(f'PMIC_MIGRATION_DELTA_COUNT {len(changes)}')
           for k,previous,current in changes:
