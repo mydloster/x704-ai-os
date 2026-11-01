@@ -45,9 +45,8 @@ export function adaptRamoops(source) {
   if (matches.length !== 1) throw new Error('Unexpected Lenovo ramoops DTS anchor.');
   const bodyStart = matches[0].index;
   const bodyEnd = source.indexOf('};', bodyStart);
-  if (bodyEnd < 0 || /\b(reg|record-size|console-size|ftrace-size|pmsg-size)\s*=/.test(source.slice(bodyStart, bodyEnd))) {
-    throw new Error('Unexpected existing standard ramoops properties.');
-  }
+  const alreadyStandard = /(?:^|\n)\s*(?:reg|record-size|console-size|ftrace-size|pmsg-size)\s*=/.test(source.slice(bodyStart, bodyEnd));
+  if (bodyEnd < 0 || alreadyStandard) throw new Error('Unexpected existing standard ramoops properties.');
   const additions = [
     'reg = <0x8ee00000 0x80000>;',
     'record-size = <0x5000>;',
