@@ -1,6 +1,11 @@
 name: Lenovo 4.9 integrated kernel compile experiment (NO FLASH)
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'kernel/x70449-migration.config'
+      - '.github/workflows/lenovo-kernel-probe.yml'
 permissions:
   contents: read
 jobs:

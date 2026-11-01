@@ -17,7 +17,8 @@ test('ROM fragment preserves the upstream partition and security settings while 
   assert.match(board, /SELINUX_IGNORE_NEVERALLOWS := true/); // Known upstream debt, not silently hidden.
   assert.match(board, /BOARD_KERNEL_CMDLINE \+= sdhci_msm\.nocmdq=1/);
   const manifest = fs.readFileSync(path.join(target, 'packages/apps/X704AIAssistant/AndroidManifest.xml'), 'utf8');
-  assert.doesNotMatch(manifest, /sharedUserId|uses-permission/);
+  assert.doesNotMatch(manifest, /sharedUserId/);
+  assert.deepEqual([...manifest.matchAll(/<uses-permission android:name="([^"]+)"/g)].map(match => match[1]), ['android.permission.CAMERA']);
   assert.equal(result.vendorIncluded, false);
   assert.equal(fs.existsSync(path.join(target, 'vendor')), false);
 });
